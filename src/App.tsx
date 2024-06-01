@@ -7,29 +7,37 @@ function App() {
   const [visible, setVisible] = useState<boolean>(false);
   const [newTodo, setNewTodo] = useState<string>("");
 
-  return <>
+  return <div className='todo-view'>
       <h1>Todo App</h1>
-      {visible && <div style={{display: "flex", flexDirection: "row", marginBottom: "10px"}}>
+      <button className='add-button'
+        onClick={() => {
+          setVisible(true);
+          console.log(todoList);
+        }}
+      > + Add Todo</button> 
+      {visible && <div className='new-todo'>
           <input 
-            style={{marginRight: "10px", padding: "5px", color: "black", backgroundColor: "white", borderRadius: "5px"}} 
             placeholder='Type your todo here.....' 
             onChange={(e)=>setNewTodo(e.target.value)}
             value={newTodo}
           />
-          <button 
-            style={{marginRight: "10px"}} 
+          <button
             onClick={()=>{
-              setRow(row+1)
-              setTodoList([...todoList, {id: row, todo:newTodo, checked:false}])
-              setVisible(false)
-              console.log(todoList);
-              setNewTodo("");
+              if (newTodo) {
+                setRow(row+1)
+                setTodoList([...todoList, {id: row, todo:newTodo, checked:false}])
+                setVisible(false)
+                console.log(todoList);
+                setNewTodo("");
+              }
+              else {
+                return <p>Please enter a todo</p>
+              }
             }}
           >
             Save
           </button>
-          <button 
-            style={{marginRight: "10px"}} 
+          <button
             onClick={()=>{
               setNewTodo("");
               setVisible(false)
@@ -37,21 +45,13 @@ function App() {
           >Cancel</button>
         </div>}
       {todoList.map((item) =>
-        <div style={{display: "flex", flexDirection: "row", marginBottom: "10px"}}>
+        <div className='todo-list'>
           <input type='checkbox' />
-          <p style={{color: "blue", marginRight: "10px"}}>{item.todo}</p>
-          <button style={{marginRight: "10px"}}>Edit</button>
-          <button style={{marginRight: "10px"}}>Delete</button>
+          <p>{item.todo}</p>
+          <button>Edit</button>
+          <button>Delete</button>
         </div>)}
-      <button 
-      style={{marginBottom: "10px"}}
-      onClick={() => {
-        setVisible(true);
-        console.log(todoList);
-      }}
-    > + Add Todo</button>
-      
-    </>
+    </div>
 }
 
 export default App
